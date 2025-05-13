@@ -5,8 +5,8 @@ from scipy.fft import dct, idct
 
 class DCT2Transformer:
     """
-    Class implementing the Discrete Cosine Transform (DCT) 2D functionality
-    both using manual implementation and fast library implementation.
+    Classe che implementa la Trasformata Discreta del Coseno bidimensionale (DCT2),
+    sia con un'implementazione manuale che con una veloce basata su libreria (SciPy).
     """
 
     def __init__(self):
@@ -14,71 +14,73 @@ class DCT2Transformer:
 
     def compute_D(self, N):
         """
-        Compute the D matrix for DCT transformation.
-        This is the equivalent of the compute_D function from the MATLAB code.
-        
-        Args:
-            N (int): Size of the matrix
-            
-        Returns:
-            numpy.ndarray: The D matrix for DCT
+        Calcola la matrice D per la trasformata DCT.
+        Equivalente alla funzione compute_D del codice MATLAB.
+
+        Argomenti:
+            N (int): dimensione della matrice quadrata
+
+        Restituisce:
+            numpy.ndarray: matrice D della DCT (NxN)
         """
-        D = np.zeros((N, N))
+        D = np.zeros((N, N))  # inizializza matrice D a zeri
         for k in range(N):
             if k == 0:
-                coef = np.sqrt(1/N)
+                coef = np.sqrt(1/N)  # coefficiente di normalizzazione per k = 0
             else:
-                coef = np.sqrt(2/N)
-            
+                coef = np.sqrt(2/N)  # coefficiente di normalizzazione per k > 0
+
             for j in range(N):
+                # Calcolo dell'elemento (k, j) della matrice D secondo la formula della DCT
                 D[k, j] = coef * np.cos((np.pi * k * (2*j + 1)) / (2 * N))
                 
         return D
 
     def dct2_manual(self, f_mat):
         """
-        Manual implementation of 2D DCT transformation.
-        This is the equivalent of the dct_2D function from the MATLAB code.
-        
-        Args:
-            f_mat (numpy.ndarray): Input matrix
-            
-        Returns:
-            numpy.ndarray: 2D DCT transformed matrix
+        Implementazione manuale della trasformata DCT2 (2D).
+        Equivalente alla funzione dct_2D del codice MATLAB.
+
+        Argomenti:
+            f_mat (numpy.ndarray): matrice di input
+
+        Restituisce:
+            numpy.ndarray: matrice trasformata con DCT2
         """
         N = f_mat.shape[0]
-        D = self.compute_D(N)
-        
-        # Make a copy of the input matrix
+        D = self.compute_D(N)  # calcola la matrice D
+
+        # Copia della matrice di input
         c_mat = f_mat.copy()
-        
-        # Apply DCT by columns
+
+        # Applica la DCT alle colonne: c = D @ f
         for j in range(N):
-            c_mat[:, j] = D @ c_mat[:, j]
-        
-        # Apply DCT by rows
+            c_mat[:, j] = D @ c_mat[:, j]  # moltiplicazione matrice-vettore colonna per ogni colonna
+
+        # Applica la DCT alle righe: c = c @ D^T
         for i in range(N):
-            c_mat[i, :] = (D @ c_mat[i, :].T).T
-            
+            c_mat[i, :] = (D @ c_mat[i, :].T).T  # moltiplicazione matrice-vettore riga
+
         return c_mat
-    
+
     def dct2_fast(self, f_mat):
         """
-        Fast implementation of 2D DCT using scipy's DCT function.
-        
-        Args:
-            f_mat (numpy.ndarray): Input matrix
-            
-        Returns:
-            numpy.ndarray: 2D DCT transformed matrix
+        Implementazione veloce della DCT2 utilizzando la funzione DCT di scipy.
+
+        Argomenti:
+            f_mat (numpy.ndarray): matrice di input
+
+        Restituisce:
+            numpy.ndarray: matrice trasformata con DCT2
         """
+        # Applica DCT lungo l’asse 0 (righe), poi lungo l’asse 1 (colonne), con normalizzazione ortogonale
         return dct(dct(f_mat, axis=0, norm='ortho'), axis=1, norm='ortho')
-    
+
     def validate_implementation(self):
         """
-        Validate the DCT implementation with test data from the problem statement.
+        Valida l'implementazione della DCT utilizzando i dati di test presenti nel testo del progetto.
         """
-        # Test block from the problem statement
+        # Blocco di test 8x8 fornito nel progetto
         test_block = np.array([
             [231, 32, 233, 161, 24, 71, 140, 245],
             [247, 40, 248, 245, 124, 204, 36, 107],
@@ -89,44 +91,42 @@ class DCT2Transformer:
             [193, 70, 174, 167, 41, 30, 127, 245],
             [87, 149, 57, 192, 65, 129, 178, 228]
         ])
-        
-        # First row for 1D DCT test
+
+        # Prima riga per il test 1D
         first_row = test_block[0, :]
-        
-        # Apply 1D DCT to the first row
+
+        # Applica la DCT1D alla prima riga con la matrice D
         D = self.compute_D(8)
-        dct_row = D @ first_row
-        
-        # Expected results from the problem statement
+        dct_row = D @ first_row  # moltiplicazione matrice D per vettore riga
+
+        # Risultati attesi dal testo
         expected_dct_row = np.array([
-            4.01e+02, 6.60e+00, 1.09e+02, -1.12e+02, 6.54e+01, 1.21e+02, 1.16e+02, 2.88e+01
+            4.01e+02, 6.60e+00, 1.09e+02, -1.12e+02,
+            6.54e+01, 1.21e+02, 1.16e+02, 2.88e+01
         ])
-        
-        # Test 2D DCT using manual implementation
+
+        # Esegue DCT2 manuale sul blocco
         dct2_result = self.dct2_manual(test_block)
-        
-        # Print validation results
-        print("1D DCT Validation:")
-        print("Our result:")
+
+        # Output del confronto tra risultato ottenuto e atteso
+        print("Validazione DCT 1D:")
+        print("Risultato ottenuto:")
         print(dct_row)
-        print("\nExpected result:")
+        print("\nRisultato atteso:")
         print(expected_dct_row)
-        print("\nDifference:")
+        print("\nDifferenza assoluta:")
         print(np.abs(dct_row - expected_dct_row))
-        
-        # Print first few elements of 2D DCT
-        print("\n2D DCT (first few elements):")
+
+        # Stampa i primi coefficienti della DCT2 manuale
+        print("\nDCT2 manuale (prime due righe):")
         print(dct2_result[0, :])
         print(dct2_result[1, :])
-        
-        # Test with scipy's DCT to check consistency
+
+        # Verifica consistenza con la DCT2 veloce di SciPy
         dct2_scipy = self.dct2_fast(test_block)
-        
-        print("\nSciPy's DCT2 (first few elements):")
+
+        print("\nDCT2 con SciPy (prime due righe):")
         print(dct2_scipy[0, :])
         print(dct2_scipy[1, :])
-        
-        # Note: The output might differ from the expected result due to
-        # different normalizations in different implementations
-        
 
+        # Nota: Le differenze nei risultati possono dipendere dalle normalizzazioni diverse
