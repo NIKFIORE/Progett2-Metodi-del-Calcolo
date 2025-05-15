@@ -153,7 +153,6 @@ if __name__ == "__main__":
     transformer.validate_implementation()
     
     # Definisce le dimensioni delle matrici per il benchmark
-    # Può essere modificata in base alla potenza del computer
     sizes = [8, 16, 32, 64, 128, 256]
     
     # Esegue il benchmark

@@ -99,7 +99,7 @@ class DCT2Transformer:
         D = self.compute_D(8)
         dct_row = D @ first_row  # moltiplicazione matrice D per vettore riga
 
-        # Risultati attesi dal testo
+        # Risultati attesi dal testo, definito dalla consegna da controllora solo la prima riga
         expected_dct_row = np.array([
             4.01e+02, 6.60e+00, 1.09e+02, -1.12e+02,
             6.54e+01, 1.21e+02, 1.16e+02, 2.88e+01
