@@ -1,5 +1,5 @@
 """
-Processore di immagini per la compressione basata sulla trasformata DCT2.Classe per la gestione della compressione di 
+Processore di immagini per la compressione basata sulla trasformata DCT2. Classe per la gestione della compressione di 
 immagini tramite la trasformata DCT2.
 """
 
@@ -8,8 +8,6 @@ from transformer.DCT2Transformer import DCT2Transformer
 from utils.image_utils import ImageUtils
 
 class ImageProcessor:
-
-    
     def __init__(self):
         """Inizializza il processore caricando il trasformatore DCT2 e gli strumenti per l'immagine."""
         self.transformer = DCT2Transformer()
