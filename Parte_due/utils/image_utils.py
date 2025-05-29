@@ -1,5 +1,5 @@
 """
-Utility functions for image handling.
+Funzioni di utilità per la gestione delle immagini.
 """
 
 import cv2
@@ -7,46 +7,49 @@ import numpy as np
 
 class ImageUtils:
     """
-    Class providing utility methods for image manipulation.
+    Classe che fornisce metodi utili per la manipolazione delle immagini.
     """
     
     def __init__(self):
-        """Initialize ImageUtils."""
+        """Inizializza ImageUtils."""
         pass
     
     def load_grayscale_image(self, file_path):
         """
-        Load an image and convert it to grayscale.
-        
+        Carica un'immagine e la converte in scala di grigi.
+
         Args:
-            file_path (str): Path to the image file
-            
+            file_path (str): percorso del file immagine
+
         Returns:
-            numpy.ndarray: Grayscale image as a 2D array
+            numpy.ndarray: immagine in scala di grigi come array 2D
         """
-        # Load image
+        # Carica immagine dal file
         image = cv2.imread(file_path)
         
+        # Controlla che il caricamento sia riuscito
         if image is None:
-            raise ValueError(f"Failed to load image from {file_path}")
+            raise ValueError(f"Impossibile caricare l'immagine da {file_path}")
         
-        # Convert to grayscale if it's a color image
+        # Se l'immagine è a colori (3 canali), la converte in scala di grigi
         if len(image.shape) == 3:
             grayscale = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         else:
+            # Se è già in scala di grigi, la restituisce così com'è
             grayscale = image
             
         return grayscale
     
     def save_grayscale_image(self, image, file_path):
         """
-        Save a grayscale image to file.
-        
+        Salva un'immagine in scala di grigi su file.
+
         Args:
-            image (numpy.ndarray): Grayscale image as a 2D array
-            file_path (str): Path where the image will be saved
-            
+            image (numpy.ndarray): immagine in scala di grigi come array 2D
+            file_path (str): percorso dove salvare l'immagine
+
         Returns:
-            bool: True if successful, False otherwise
+            bool: True se il salvataggio ha successo, False altrimenti
         """
+        # Scrive l'immagine sul disco e ritorna True/False in base al risultato
         return cv2.imwrite(file_path, image)
