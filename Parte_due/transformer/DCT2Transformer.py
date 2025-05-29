@@ -10,55 +10,6 @@ class DCT2Transformer:
     def __init__(self):
         pass
 
-    def compute_D(self, N):
-        """
-        Calcola la matrice D per la trasformata DCT.
-
-        Argomenti:
-            N (int): dimensione della matrice quadrata
-
-        Restituisce:
-            numpy.ndarray: matrice D della DCT (NxN)
-        """
-        D = np.zeros((N, N))  # inizializza matrice D a zeri
-        for k in range(N):
-            if k == 0:
-                coef = np.sqrt(1/N)  # coefficiente di normalizzazione per k = 0
-            else:
-                coef = np.sqrt(2/N)  # coefficiente di normalizzazione per k > 0
-
-            for j in range(N):
-                # Calcolo dell'elemento (k, j) della matrice D secondo la formula della DCT
-                D[k, j] = coef * np.cos((np.pi * k * (2*j + 1)) / (2 * N))
-                
-        return D
-
-    def dct2_manual(self, f_mat):
-        """
-        Implementazione manuale della trasformata DCT2 (2D).
-
-        Argomenti:
-            f_mat (numpy.ndarray): matrice di input
-
-        Restituisce:
-            numpy.ndarray: matrice trasformata con DCT2
-        """
-        N = f_mat.shape[0]
-        D = self.compute_D(N)  # calcola la matrice D
-
-        # Copia della matrice di input
-        c_mat = f_mat.copy()
-
-        # Applica la DCT alle colonne: c = D @ f
-        for j in range(N):
-            c_mat[:, j] = D @ c_mat[:, j]  # moltiplicazione matrice-vettore colonna per ogni colonna
-
-        # Applica la DCT alle righe: c = c @ D^T
-        for i in range(N):
-            c_mat[i, :] = (D @ c_mat[i, :].T).T  # moltiplicazione matrice-vettore riga
-
-        return c_mat
-
     def dct2_fast(self, f_mat):
         """
         Implementazione veloce della DCT2 utilizzando la funzione DCT di scipy.
