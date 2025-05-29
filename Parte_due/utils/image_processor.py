@@ -1,5 +1,6 @@
 """
-Processore di immagini per la compressione basata sulla trasformata DCT2.
+Processore di immagini per la compressione basata sulla trasformata DCT2.Classe per la gestione della compressione di 
+immagini tramite la trasformata DCT2.
 """
 
 import numpy as np
@@ -7,9 +8,7 @@ from transformer.DCT2Transformer import DCT2Transformer
 from utils.image_utils import ImageUtils
 
 class ImageProcessor:
-    """
-    Classe per la gestione della compressione di immagini tramite la trasformata DCT2.
-    """
+
     
     def __init__(self):
         """Inizializza il processore caricando il trasformatore DCT2 e gli strumenti per l'immagine."""
@@ -20,11 +19,9 @@ class ImageProcessor:
         """
         Carica un'immagine in scala di grigi dal file system.
 
-        Args:
-            file_path (str): percorso del file immagine
+        Args:file_path (str): percorso del file immagine
         
-        Returns:
-            numpy.ndarray: immagine caricata in scala di grigi come array 2D
+        Returns:numpy.ndarray: immagine caricata in scala di grigi come array 2D
         """
         return self.image_utils.load_grayscale_image(file_path)
     

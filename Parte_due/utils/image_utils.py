@@ -1,15 +1,11 @@
 """
-Funzioni di utilità per la gestione delle immagini.
+Funzioni di utilità per la gestione delle immagini. Classe che fornisce metodi utili per la manipolazione delle immagini.
 """
 
 import cv2
 import numpy as np
 
 class ImageUtils:
-    """
-    Classe che fornisce metodi utili per la manipolazione delle immagini.
-    """
-    
     def __init__(self):
         """Inizializza ImageUtils."""
         pass
@@ -18,11 +14,9 @@ class ImageUtils:
         """
         Carica un'immagine e la converte in scala di grigi.
 
-        Args:
-            file_path (str): percorso del file immagine
+        Args: file_path (str): percorso del file immagine
 
-        Returns:
-            numpy.ndarray: immagine in scala di grigi come array 2D
+        Returns: numpy.ndarray: immagine in scala di grigi come array 2D
         """
         # Carica immagine dal file
         image = cv2.imread(file_path)
@@ -44,12 +38,10 @@ class ImageUtils:
         """
         Salva un'immagine in scala di grigi su file.
 
-        Args:
-            image (numpy.ndarray): immagine in scala di grigi come array 2D
-            file_path (str): percorso dove salvare l'immagine
+        Args: image (numpy.ndarray): immagine in scala di grigi come array 2D
+              file_path (str): percorso dove salvare l'immagine
 
-        Returns:
-            bool: True se il salvataggio ha successo, False altrimenti
+        Returns:bool: True se il salvataggio ha successo, False altrimenti
         """
         # Scrive l'immagine sul disco e ritorna True/False in base al risultato
         return cv2.imwrite(file_path, image)
